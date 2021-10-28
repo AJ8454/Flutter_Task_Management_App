@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
 import 'package:task_management/services/notification_services.dart';
 import 'package:task_management/services/theme_services.dart';
+
+import 'theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,10 +30,28 @@ class _HomePageState extends State<HomePage> {
       appBar: _appBar(),
       body: Column(
         children: [
-          Text(
-            'Theme Data',
-            style: Theme.of(context).textTheme.headline4,
-          )
+          Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      DateFormat.yMMMd().format(
+                        DateTime.now(),
+                      ),
+                      style: subHeadingStyle,
+                    ),
+                    Text(
+                      'Today',
+                      style: headingStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -46,17 +68,20 @@ class _HomePageState extends State<HomePage> {
           );
           notifyHelper.scheduledNotification();
         },
-        icon: const Icon(
-          Icons.nightlight_round,
+        icon: Icon(
+          Get.isDarkMode ? Icons.wb_sunny_outlined : Icons.nightlight_round,
           size: 20,
+          color: Get.isDarkMode ? Colors.white : Colors.black,
         ),
       ),
-      actions: const [
-        Icon(
-          Icons.person,
-          size: 20,
+      actions: [
+        CircleAvatar(
+          backgroundColor: Get.isDarkMode ? Colors.amber : Colors.grey[300],
+          backgroundImage: const AssetImage(
+            'assets/images/profileicon.png',
+          ),
         ),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
       ],
     );
   }
